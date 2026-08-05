@@ -1,0 +1,58 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectCard from '../components/ProjectCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const projects = await getCollection('projects');
+const groups = [
+  {
+    categories: ['time-series', 'nlp-social-computing'],
+    eyebrow: 'Machine learning',
+    title: 'Flagship research projects',
+    introduction: 'Model development for mixed-frequency forecasting and longitudinal social-media risk assessment.',
+  },
+  {
+    categories: ['mathematical-modeling'],
+    eyebrow: 'Team methods',
+    title: 'Mathematical modeling',
+    introduction: 'Co-authored team work with individual contributions kept explicitly qualified.',
+  },
+  {
+    categories: ['robotics', 'scientific-visualization'],
+    eyebrow: 'Research engineering',
+    title: 'Robotics and scientific visualization',
+    introduction: 'Targeted engineering contributions to runtime validation, on-device deployment, visualization, and reporting.',
+  },
+  {
+    categories: ['software'],
+    eyebrow: 'Open work',
+    title: 'Selected software',
+    introduction: 'Public repositories that connect research narratives to inspectable code and publication artifacts.',
+  },
+];
+---
+
+<BaseLayout title="Projects" description="Verified machine-learning, mathematical-modeling, robotics, scientific-visualization, and software projects by Zihan Liang.">
+  <header class="page-hero">
+    <div class="page-shell">
+      <p class="eyebrow">Projects</p>
+      <h1>From model design to working research artifacts</h1>
+      <p class="page-introduction">Selected projects span machine learning, mathematical modeling, robotics integration, scientific visualization, and public research software.</p>
+    </div>
+  </header>
+
+  {groups.map((group) => {
+    const entries = projects
+      .filter((entry) => group.categories.includes(entry.data.category))
+      .sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.title.localeCompare(b.data.title));
+    return (
+      <section class="section-shell">
+        <SectionHeading eyebrow={group.eyebrow} title={group.title} introduction={group.introduction} />
+        <div class="project-list">
+          {entries.map((entry) => <ProjectCard entry={entry} detailed />)}
+        </div>
+      </section>
+    );
+  })}
+</BaseLayout>

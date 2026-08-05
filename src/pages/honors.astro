@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import HonorRow from '../components/HonorRow.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const honors = await getCollection('honors');
+const awards = honors
+  .filter((entry) => entry.data.kind === 'award')
+  .sort((a, b) => b.data.year - a.data.year || Number(b.data.featured) - Number(a.data.featured) || a.data.title.localeCompare(b.data.title));
+const presentations = honors
+  .filter((entry) => entry.data.kind === 'presentation')
+  .sort((a, b) => b.data.year - a.data.year || Number(b.data.featured) - Number(a.data.featured));
+---
+
+<BaseLayout title="Honors" description="Project-labeled awards and selected presentations by Zihan Liang.">
+  <header class="page-hero">
+    <div class="page-shell">
+      <p class="eyebrow">Honors</p>
+      <h1>Recognition tied to the work</h1>
+      <p class="page-introduction">Awards are labeled by project so the result and its research context remain connected. Team and co-authored work stays qualified.</p>
+    </div>
+  </header>
+
+  <section class="section-shell" aria-labelledby="awards-title">
+    <SectionHeading id="awards-title" eyebrow="Awards" title="Project-labeled honors" introduction="Selected modeling and research-led learning results, without unsupported rankings or personal attribution." />
+    <div class="honor-list">
+      {awards.map((entry) => <HonorRow entry={entry} />)}
+    </div>
+  </section>
+
+  <section class="section-shell" aria-labelledby="presentations-title">
+    <SectionHeading id="presentations-title" eyebrow="Presentations" title="Selected research communication" introduction="Conference and symposium presentations delivered by Zihan." />
+    <div class="honor-list">
+      {presentations.map((entry) => <HonorRow entry={entry} />)}
+    </div>
+  </section>
+</BaseLayout>

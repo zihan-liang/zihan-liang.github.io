@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectCard from '../components/ProjectCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const projects = await getCollection('projects');
+const fx = projects.find((entry) => entry.data.slug === 'mixed-frequency-transformer');
+const suicide = projects.find((entry) => entry.data.slug === 'sequential-suicide-risk');
+if (!fx || !suicide) throw new Error('Flagship research projects are missing.');
+---
+
+<BaseLayout title="Research" description="Zihan Liang’s research in mixed-frequency time-series forecasting and sequential social-media risk assessment.">
+  <header class="page-hero">
+    <div class="page-shell">
+      <p class="eyebrow">Research</p>
+      <h1>Learning from signals that unfold over time</h1>
+      <p class="page-introduction">I study how machine-learning systems can combine heterogeneous temporal evidence and long user histories without losing sight of evaluation, interpretation, or responsible communication.</p>
+    </div>
+  </header>
+
+  <section class="section-shell" aria-labelledby="time-series-title">
+    <SectionHeading id="time-series-title" eyebrow="Theme 01" title="Time-series and quantitative AI" introduction="Financial forecasting brings together signals observed at different frequencies, with different delays, and across multiple forecast horizons." />
+    <div class="research-grid">
+      <article class="research-narrative">
+        <h3>Aligning mixed-frequency evidence</h3>
+        <p>Daily technical representations query lower-frequency macroeconomic and geopolitical streams through cross-attention. The design keeps the timing of each source explicit instead of flattening every signal into one undifferentiated sequence.</p>
+      </article>
+      <article class="research-narrative">
+        <h3>Evaluating across horizons</h3>
+        <p>Pooled and horizon-specific evaluation at 1, 5, and 10 days helps distinguish general performance from horizon-dependent behavior. Predicted-versus-actual plots support error analysis across model variants.</p>
+      </article>
+      <article class="research-narrative">
+        <h3>Interpreting event periods</h3>
+        <p>Integrated Gradients heatmaps support event-driven analysis around the 2024 U.S. presidential election period, connecting model attribution to a concrete forecasting context.</p>
+      </article>
+    </div>
+    <div class="project-list" style="margin-top: 1.2rem;">
+      <ProjectCard entry={fx} detailed />
+    </div>
+  </section>
+
+  <section class="section-shell" aria-labelledby="nlp-title">
+    <SectionHeading id="nlp-title" eyebrow="Theme 02" title="NLP and social computing" introduction="Sequential social-media histories require models that preserve post-level context while learning a coherent user-level representation." />
+    <div class="research-grid">
+      <article class="research-narrative">
+        <h3>From histories to user-level decisions</h3>
+        <p>The pipeline uses Twitter-RoBERTa for language-model encoding, Bi-GRU sequence modeling, and attention to aggregate longitudinal histories for user-level risk assessment.</p>
+      </article>
+      <article class="research-narrative">
+        <h3>Evaluation without user leakage</h3>
+        <p>Five-fold evaluation is separated at the user level. This matches the prediction unit and prevents posts from one individual from crossing evaluation folds.</p>
+      </article>
+      <article class="research-narrative">
+        <h3>Research communication</h3>
+        <p>The work progressed from an IEEE BigData Challenge technical report and prediction submission to a distinct ICSC 2025 conference poster presented by Zihan.</p>
+        <div class="metric-callout">
+          <span class="metric-number">0.46</span>
+          <span>weighted F1, compared with 0.43 for the RoBERTa baseline</span>
+        </div>
+      </article>
+    </div>
+    <div class="project-list" style="margin-top: 1.2rem;">
+      <ProjectCard entry={suicide} detailed />
+    </div>
+  </section>
+</BaseLayout>

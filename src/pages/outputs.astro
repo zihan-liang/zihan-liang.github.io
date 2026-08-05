@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+import OutputCard from '../components/OutputCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const outputs = (await getCollection('outputs')).sort((a, b) => b.data.year - a.data.year || a.data.title.localeCompare(b.data.title));
+const groups = [
+  {
+    type: 'preprint' as const,
+    eyebrow: 'Research manuscript',
+    title: 'Preprint',
+    introduction: 'An SSRN manuscript with complete authorship and status details.',
+  },
+  {
+    type: 'poster' as const,
+    eyebrow: 'Conference communication',
+    title: 'Poster',
+    introduction: 'A conference poster, distinct from the preprint and from the earlier technical report.',
+  },
+  {
+    type: 'technical-report' as const,
+    eyebrow: 'Project deliverable',
+    title: 'Technical report',
+    introduction: 'A challenge submission recorded as a technical project output rather than a formal publication.',
+  },
+];
+---
+
+<BaseLayout title="Outputs" description="Preprint, conference poster, and technical report by undergraduate AI researcher Zihan Liang.">
+  <header class="page-hero">
+    <div class="page-shell">
+      <p class="eyebrow">Outputs</p>
+      <h1>Research artifacts, labeled by what they are</h1>
+      <p class="page-introduction">Preprints, posters, and technical reports serve different purposes. This page keeps their status, authorship, venue, and public materials explicit.</p>
+    </div>
+  </header>
+
+  {groups.map((group) => {
+    const entries = outputs.filter((entry) => entry.data.type === group.type);
+    return (
+      <section class="section-shell">
+        <SectionHeading eyebrow={group.eyebrow} title={group.title} introduction={group.introduction} />
+        <div class="card-grid">
+          {entries.map((entry) => <OutputCard entry={entry} />)}
+        </div>
+      </section>
+    );
+  })}
+</BaseLayout>

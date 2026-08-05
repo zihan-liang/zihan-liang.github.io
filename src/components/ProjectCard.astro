@@ -1,0 +1,49 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'projects'>;
+  detailed?: boolean;
+}
+
+const { entry, detailed = false } = Astro.props;
+const categoryLabels = {
+  'time-series': 'Time-series AI',
+  'nlp-social-computing': 'NLP & social computing',
+  'mathematical-modeling': 'Mathematical modeling',
+  robotics: 'Robotics',
+  'scientific-visualization': 'Scientific visualization',
+  software: 'Software',
+};
+---
+
+<article class:list={['card', 'project-card', { 'project-card--detailed': detailed }]}>
+  <div class="card-meta">
+    <span class="tag">{categoryLabels[entry.data.category]}</span>
+    <span>{entry.data.period}</span>
+  </div>
+  <h3>{entry.data.title}</h3>
+  <p class="role">{entry.data.role}</p>
+  <p>{entry.data.summary}</p>
+  {detailed && (
+    <div class="project-details">
+      <div>
+        <h4>Contributions</h4>
+        <ul>{entry.data.contributions.map((item) => <li>{item}</li>)}</ul>
+      </div>
+      <div>
+        <h4>Methods</h4>
+        <ul class="method-list">{entry.data.methods.map((item) => <li>{item}</li>)}</ul>
+      </div>
+      <div>
+        <h4>Results</h4>
+        <ul>{entry.data.results.map((item) => <li>{item}</li>)}</ul>
+      </div>
+    </div>
+  )}
+  {entry.data.links.length > 0 && (
+    <div class="card-links">
+      {entry.data.links.map((link) => <a href={link.url}>{link.label}<span aria-hidden="true"> ↗</span></a>)}
+    </div>
+  )}
+</article>

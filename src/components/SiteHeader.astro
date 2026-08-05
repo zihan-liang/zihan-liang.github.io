@@ -1,0 +1,79 @@
+---
+import { profile } from '../data/profile';
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/research/', label: 'Research' },
+  { href: '/outputs/', label: 'Outputs' },
+  { href: '/projects/', label: 'Projects' },
+  { href: '/honors/', label: 'Honors' },
+  { href: '/cv/', label: 'CV' },
+];
+
+const isActive = (href: string) => href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+---
+
+<header class="site-header" data-site-header>
+  <div class="header-inner">
+    <a class="wordmark" href="/" aria-label={`${profile.name}, home`}>
+      <span class="wordmark-name">{profile.name}</span>
+      <span class="wordmark-field">AI Research</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false">
+      <span class="visually-hidden">Open navigation</span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+    <nav id="primary-navigation" class="primary-nav" aria-label="Primary">
+      <ul>
+        {navItems.map((item) => (
+          <li>
+            <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script is:inline>
+  (() => {
+    const header = document.querySelector('[data-site-header]');
+    const button = header?.querySelector('.nav-toggle');
+    const nav = header?.querySelector('#primary-navigation');
+    if (!(header instanceof HTMLElement) || !(button instanceof HTMLButtonElement) || !(nav instanceof HTMLElement)) return;
+
+    const setOpen = (open) => {
+      header.dataset.open = String(open);
+      button.setAttribute('aria-expanded', String(open));
+      const label = button.querySelector('.visually-hidden');
+      if (label) label.textContent = open ? 'Close navigation' : 'Open navigation';
+    };
+
+    button.addEventListener('click', () => {
+      const open = button.getAttribute('aria-expanded') !== 'true';
+      setOpen(open);
+      if (open) nav.querySelector('a')?.focus();
+    });
+
+    nav.addEventListener('click', (event) => {
+      if (event.target instanceof HTMLAnchorElement) setOpen(false);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && button.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        button.focus();
+      }
+    });
+
+    window.matchMedia('(min-width: 48.001rem)').addEventListener('change', (event) => {
+      if (event.matches) setOpen(false);
+    });
+  })();
+</script>

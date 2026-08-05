@@ -1,0 +1,21 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'updates'>;
+}
+
+const { entry } = Astro.props;
+const readableDate = entry.data.date.length === 4
+  ? entry.data.date
+  : new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', timeZone: 'UTC' })
+      .format(new Date(`${entry.data.date}${entry.data.date.length === 7 ? '-01' : ''}T00:00:00Z`));
+---
+
+<article class="update-row">
+  <time datetime={entry.data.date}>{readableDate}</time>
+  <div>
+    <h3>{entry.data.link ? <a href={entry.data.link}>{entry.data.title}</a> : entry.data.title}</h3>
+    <p>{entry.data.description}</p>
+  </div>
+</article>

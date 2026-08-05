@@ -1,0 +1,69 @@
+---
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { profile } from '../data/profile';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+}
+
+const { title, description, canonicalPath } = Astro.props;
+const siteTitle = 'Zihan Liang | AI Research';
+const documentTitle = title === siteTitle ? siteTitle : `${title} | Zihan Liang`;
+const normalizedPath = canonicalPath ?? Astro.url.pathname;
+const canonical = new URL(normalizedPath, Astro.site);
+const ogImage = new URL('/og-card.png', Astro.site);
+const portrait = new URL(profile.portraitPath, Astro.site);
+
+const personData = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  url: new URL('/', Astro.site).href,
+  image: portrait.href,
+  jobTitle: profile.title,
+  affiliation: {
+    '@type': 'CollegeOrUniversity',
+    name: profile.institution,
+  },
+  email: `mailto:${profile.email}`,
+  sameAs: [profile.github],
+  knowsAbout: profile.researchThemes.map((theme) => theme.title),
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{documentTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteTitle} />
+    <meta property="og:title" content={documentTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content="Zihan Liang — AI Research" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={documentTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(personData)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <SiteHeader currentPath={normalizedPath} />
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

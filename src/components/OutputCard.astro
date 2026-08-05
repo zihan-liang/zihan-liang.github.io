@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'outputs'>;
+}
+
+const { entry } = Astro.props;
+const typeLabels = {
+  preprint: 'Preprint',
+  poster: 'Conference poster',
+  'technical-report': 'Technical report',
+};
+---
+
+<article class="card output-card">
+  <div class="card-meta">
+    <span class="tag">{typeLabels[entry.data.type]}</span>
+    <span>{entry.data.year}</span>
+  </div>
+  <h3>{entry.data.title}</h3>
+  <p class="authors">{entry.data.authors.join(', ')}</p>
+  <p class="status">{entry.data.status}</p>
+  <p>{entry.data.summary}</p>
+  {entry.data.links.length > 0 && (
+    <div class="card-links">
+      {entry.data.links.map((link) => <a href={link.url}>{link.label}<span aria-hidden="true"> ↗</span></a>)}
+    </div>
+  )}
+</article>

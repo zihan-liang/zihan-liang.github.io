@@ -1,0 +1,131 @@
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { readFile, readdir, stat } from 'node:fs/promises';
+import path from 'node:path';
+import test from 'node:test';
+
+const root = path.resolve(import.meta.dirname, '..');
+const dist = path.join(root, 'dist');
+const approvedCvSha256 = '973295a62659a7680c782e7717d017a2a1a55761a5de29447249787e1258b095';
+
+const routeFiles = new Map([
+  ['/', 'index.html'],
+  ['/research/', 'research/index.html'],
+  ['/outputs/', 'outputs/index.html'],
+  ['/projects/', 'projects/index.html'],
+  ['/honors/', 'honors/index.html'],
+  ['/cv/', 'cv/index.html'],
+  ['/404.html', '404.html'],
+]);
+
+const forbiddenPatterns = [
+  /date of birth|\bDOB\b/i,
+  /phone|telephone|mobile number/i,
+  /material\/award|material\/paper/i,
+];
+
+const forbiddenFingerprints = [
+  [7, '1050c70e59f5ca823c85432ff72b3dc916b0085ea2b00ef7ab7537334678ae3d'],
+  [16, '5a472040f735cc79650b4ce1e534589baea6ccccd109ca701e57e448ecb9ea8c'],
+  [21, 'c4955adae6d170ae8aa6f55d695e691fdd15540ccbdd6331b5bb9356701d38b3'],
+  [19, '7e6d26b7f32e383ec172b31628206f9e299254ccd797b26ab90b0df855ca972b'],
+  [9, '88f4a7c721833e59b04fada115120ad93df02818acdcfc7c68a500332cf4babe'],
+  [15, 'd978cf5e1e3a0e89208e22a98b6c75268900637a9b35a5e3f49d3b9f0ed521ae'],
+  [10, 'a93dafb9f7e49a0d9f3d316b4fc015e94dda0ab8c6d8801f2d02c51d2a9ad015'],
+  [23, 'ca70c5bbd909a04184ad135bc04a2be4241c29fd093ea292ce69ee073cf967ab'],
+];
+
+async function fileText(relativePath) {
+  return readFile(path.join(dist, relativePath), 'utf8');
+}
+
+async function allFiles(directory) {
+  const entries = await readdir(directory, { withFileTypes: true });
+  return (await Promise.all(entries.map(async (entry) => {
+    const full = path.join(directory, entry.name);
+    return entry.isDirectory() ? allFiles(full) : [full];
+  }))).flat();
+}
+
+async function sha256(file) {
+  return createHash('sha256').update(await readFile(file)).digest('hex');
+}
+
+function assertNoFingerprints(value) {
+  const normalized = value.toLowerCase();
+  for (const [length, forbiddenHash] of forbiddenFingerprints) {
+    for (let index = 0; index <= normalized.length - length; index += 1) {
+      const candidateHash = createHash('sha256').update(normalized.slice(index, index + length)).digest('hex');
+      assert.notEqual(candidateHash, forbiddenHash, 'A fingerprinted private or unsupported value entered the public build.');
+    }
+  }
+}
+
+test('build emits every required route with unique canonical metadata', async () => {
+  for (const [route, file] of routeFiles) {
+    const html = await fileText(file);
+    assert.match(html, /<html lang="en"/);
+    assert.match(html, /<meta name="description" content="[^"]+"/);
+    assert.match(html, /<meta property="og:title" content="[^"]+"/);
+    assert.match(html, /<meta property="og:image" content="https:\/\/zihan-liang\.github\.io\/og-card\.png"/);
+    assert.match(html, new RegExp(`<link rel="canonical" href="https://zihan-liang\\.github\\.io${route === '/404.html' ? '/404.html' : route}"`));
+    assert.equal((html.match(/<h1(?:\s|>)/g) ?? []).length, 1, `${route} should have one h1`);
+  }
+});
+
+test('homepage contains authorized positioning, research result, and Person data', async () => {
+  const html = await fileText('index.html');
+  assert.match(html, /Undergraduate AI Researcher at XJTLU/);
+  assert.match(html, /weighted F1[^<]*0\.46[^<]*0\.43[^<]*five-fold user-level evaluation/i);
+  assert.match(html, /application\/ld\+json/);
+  assert.match(html, /"@type":"Person"/);
+  assert.match(html, /Zihan\.Liang24@student\.xjtlu\.edu\.cn/);
+  assert.match(html, /https:\/\/github\.com\/zihan-liang/);
+});
+
+test('outputs distinguish preprint, poster, and technical report', async () => {
+  const html = await fileText('outputs/index.html');
+  assert.match(html, /SSRN preprint/i);
+  assert.match(html, /Conference poster/i);
+  assert.match(html, /Technical report/i);
+  assert.match(html, /A Hierarchical Neural Network for Suicide Risk Prediction/);
+  assert.match(html, /zihan-liang\/ICSC2025-poster/);
+  assert.match(html, /zihan-liang\/public-mental-health-monitoring/);
+});
+
+test('generated public artifacts contain no forbidden private or unsupported claims', async () => {
+  const files = (await allFiles(dist)).filter((file) => /\.(?:html|xml|txt|css|js|md|json)$/i.test(file));
+  const corpus = (await Promise.all(files.map((file) => readFile(file, 'utf8')))).join('\n');
+  for (const pattern of forbiddenPatterns) assert.doesNotMatch(corpus, pattern);
+  assertNoFingerprints(corpus);
+});
+
+test('downloadable CV is byte-identical to the approved two-page PDF', async () => {
+  const publishedCv = path.join(dist, 'assets', 'Zihan_Liang_Academic_CV.pdf');
+  assert.equal(await sha256(publishedCv), approvedCvSha256);
+  assert.ok((await stat(publishedCv)).size > 0);
+});
+
+test('sitemap, robots, 404, social card, and portrait are present', async () => {
+  const sitemap = await fileText('sitemap-0.xml');
+  const sitemapIndex = await fileText('sitemap-index.xml');
+  const robots = await fileText('robots.txt');
+  assert.match(sitemap, /https:\/\/zihan-liang\.github\.io\/(?:<\/loc>|research\/)/);
+  assert.match(sitemapIndex, /sitemap-0\.xml/);
+  assert.match(robots, /Allow: \/[\s\S]*Sitemap: https:\/\/zihan-liang\.github\.io\/sitemap-index\.xml/);
+  await stat(path.join(dist, '404.html'));
+  await stat(path.join(dist, 'og-card.png'));
+  await stat(path.join(dist, 'assets', 'portrait.jpg'));
+});
+
+test('mobile navigation and responsive accessibility contracts are rendered', async () => {
+  const html = await fileText('index.html');
+  const cssFiles = (await allFiles(path.join(dist, '_astro'))).filter((file) => file.endsWith('.css'));
+  const css = (await Promise.all(cssFiles.map((file) => readFile(file, 'utf8')))).join('\n');
+  assert.match(html, /<button[^>]+aria-controls="primary-navigation"[^>]+aria-expanded="false"/);
+  assert.match(html, /event\.key\s*===\s*["']Escape["']/);
+  assert.match(css, /@media\s*\((?:[^)]*max-width:\s*48rem|width\s*<=\s*48rem)/);
+  assert.match(css, /prefers-reduced-motion:\s*reduce/);
+  assert.match(css, /:focus-visible/);
+  assert.match(css, /overflow-wrap:\s*anywhere/);
+});

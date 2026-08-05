@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Page not found" description="The requested page could not be found on Zihan Liang’s academic research website." canonicalPath="/404.html">
+  <section class="not-found">
+    <div class="not-found-inner page-shell">
+      <p class="not-found-code" aria-hidden="true">404</p>
+      <p class="eyebrow">Page not found</p>
+      <h1>This path does not lead to a research note.</h1>
+      <p class="page-introduction" style="margin-inline: auto;">The page may have moved or the address may be incomplete. Return to the homepage or browse the research overview.</p>
+      <div class="hero-actions" style="justify-content: center;">
+        <a class="button-link" href="/">Go home</a>
+        <a class="button-link button-link--quiet" href="/research/">View research</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,66 @@
+---
+import SectionHeading from '../components/SectionHeading.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { profile } from '../data/profile';
+---
+
+<BaseLayout title="CV" description="Profile, education, research focus, and downloadable academic CV for Zihan Liang.">
+  <header class="page-hero">
+    <div class="page-shell">
+      <p class="eyebrow">Curriculum vitae</p>
+      <h1>A concise academic profile</h1>
+      <p class="page-introduction">Undergraduate artificial-intelligence research across time-series forecasting, NLP and social computing, mathematical modeling, and reproducible research engineering.</p>
+    </div>
+  </header>
+
+  <section class="section-shell" aria-labelledby="profile-title">
+    <SectionHeading id="profile-title" eyebrow="Profile" title="Research-oriented AI engineering" introduction={profile.biography} />
+    <div class="cv-summary">
+      <div>
+        <h3>Education</h3>
+        <dl class="fact-list">
+          <div>
+            <dt>Institution</dt>
+            <dd>{profile.institution}</dd>
+          </div>
+          <div>
+            <dt>Programme</dt>
+            <dd>BEng Artificial Intelligence (Intelligent Systems), expected 2028</dd>
+          </div>
+          <div>
+            <dt>Standing</dt>
+            <dd>Completed Stage 2; Stage 2 weighted average 78/100 and overall weighted average 74/100</dd>
+          </div>
+          <div>
+            <dt>Selected marks</dt>
+            <dd>Python for AI 92; Maths for Machine Learning 86; Engineering Mathematics I 82; AI Fundamentals &amp; Ethics 81; Data Structures and Algorithms 78</dd>
+          </div>
+        </dl>
+      </div>
+      <aside class="download-panel" aria-labelledby="download-title">
+        <p class="eyebrow">PDF</p>
+        <h3 id="download-title">Latest final academic CV</h3>
+        <p>Download the approved two-page English CV.</p>
+        <a class="button-link" href={profile.cvPath} download>Download CV</a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section-shell" aria-labelledby="skills-title">
+    <SectionHeading id="skills-title" eyebrow="Technical focus" title="Methods and tools" introduction="Skills used across the research projects documented on this site." />
+    <div class="theme-grid">
+      <article class="theme-card">
+        <h3>Programming</h3>
+        <p>Python, PyTorch, Hugging Face Transformers, scikit-learn, NumPy, Pandas, matplotlib, Git, and LaTeX.</p>
+      </article>
+      <article class="theme-card">
+        <h3>Machine learning</h3>
+        <p>Transformers, attention mechanisms, mixed-frequency time-series forecasting, cross-validation, and imbalanced classification.</p>
+      </article>
+      <article class="theme-card">
+        <h3>NLP and social computing</h3>
+        <p>RoBERTa-based encoding, Bi-GRU sequence modeling, hierarchical attention, and user-level evaluation.</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

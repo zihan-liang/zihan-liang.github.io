@@ -1,0 +1,79 @@
+---
+import { getCollection } from 'astro:content';
+import OutputCard from '../components/OutputCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import UpdateRow from '../components/UpdateRow.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { profile } from '../data/profile';
+
+const outputs = (await getCollection('outputs'))
+  .filter((entry) => entry.data.featured)
+  .sort((a, b) => b.data.year - a.data.year);
+const projects = (await getCollection('projects'))
+  .filter((entry) => entry.data.featured)
+  .sort((a, b) => a.data.title.localeCompare(b.data.title));
+const updates = (await getCollection('updates'))
+  .sort((a, b) => b.data.date.localeCompare(a.data.date))
+  .slice(0, 4);
+
+const description = 'Machine learning for time-series forecasting and sequential social-media risk assessment by undergraduate AI researcher Zihan Liang.';
+---
+
+<BaseLayout title="Zihan Liang | AI Research" description={description}>
+  <section class="hero" aria-labelledby="home-title">
+    <div class="hero-inner">
+      <div>
+        <p class="hero-kicker">Machine learning · Research engineering</p>
+        <h1 id="home-title">Zihan Liang</h1>
+        <p class="hero-positioning">{profile.title}</p>
+        <p class="hero-copy">{profile.biography}</p>
+        <div class="hero-actions">
+          <a class="button-link" href={`mailto:${profile.email}`}>Email me</a>
+          <a class="button-link button-link--quiet" href={profile.github}>GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <figure class="portrait-frame">
+        <img src={profile.portraitPath} alt={profile.portraitAlt} width="295" height="413" fetchpriority="high" />
+      </figure>
+    </div>
+  </section>
+
+  <section class="section-shell" aria-labelledby="themes-title">
+    <SectionHeading id="themes-title" eyebrow="Research focus" title="Questions that reward careful sequencing" introduction="My work centers on models that must align information across time, aggregate long histories, and remain inspectable under rigorous evaluation." />
+    <div class="theme-grid">
+      {profile.researchThemes.map((theme, index) => (
+        <article class="theme-card">
+          <p class="eyebrow">0{index + 1}</p>
+          <h3>{theme.title}</h3>
+          <p>{theme.description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-shell" aria-labelledby="featured-output-title">
+    <SectionHeading id="featured-output-title" eyebrow="Selected work" title="Featured outputs" introduction="A preprint and a conference poster, labeled by publication type and linked to their public records." />
+    <div class="card-grid">
+      {outputs.map((entry) => <OutputCard entry={entry} />)}
+    </div>
+  </section>
+
+  <section class="section-shell" aria-labelledby="featured-project-title">
+    <SectionHeading id="featured-project-title" eyebrow="Flagship narratives" title="Research in practice" introduction="Two projects show how I move from data and model design to evaluation, interpretation, and communication." />
+    <div class="card-grid">
+      {projects.map((entry) => <ProjectCard entry={entry} />)}
+    </div>
+    <div class="research-narrative" style="margin-top: 1rem;">
+      <p class="eyebrow">Evaluation highlight</p>
+      <p>For sequential suicide-risk assessment, the hierarchical model achieved weighted F1 0.46 versus 0.43 for a RoBERTa baseline under five-fold user-level evaluation.</p>
+    </div>
+  </section>
+
+  <section class="section-shell" aria-labelledby="updates-title">
+    <SectionHeading id="updates-title" eyebrow="Progress" title="Recent milestones" introduction="Selected research, presentation, and competition updates." />
+    <div class="update-list">
+      {updates.map((entry) => <UpdateRow entry={entry} />)}
+    </div>
+  </section>
+</BaseLayout>

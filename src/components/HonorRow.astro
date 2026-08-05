@@ -1,0 +1,19 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'honors'>;
+}
+
+const { entry } = Astro.props;
+---
+
+<article class="honor-row">
+  <div class="honor-year">{entry.data.year}</div>
+  <div>
+    <p class="eyebrow">{entry.data.kind}</p>
+    <h3>{entry.data.title}</h3>
+    <p class="honor-organization">{entry.data.organization}</p>
+    <p>{entry.data.project}</p>
+  </div>
+</article>
