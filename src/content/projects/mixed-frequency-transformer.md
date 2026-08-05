@@ -17,7 +17,7 @@ methods:
   - Integrated Gradients
 results:
   - Evaluated 1-, 5-, and 10-day forecast horizons.
-  - Contributed to an SSRN preprint presented at IBEC 2026 by a co-author.
+  - Contributed model-development and evaluation work to the SSRN preprint.
 links:
   - label: Preprint
     url: https://ssrn.com/abstract=5418894

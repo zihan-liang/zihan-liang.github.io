@@ -9,7 +9,7 @@ authors:
   - Ren Zhao
 year: 2025
 venue: SSRN
-status: SSRN preprint; presented at IBEC 2026 by a co-author
+status: SSRN preprint, 2025
 summary: A mixed-frequency Transformer study of whether macroeconomic and geopolitical risk factors improve USD/CNH volatility forecasts across multiple horizons.
 links:
   - label: Preprint

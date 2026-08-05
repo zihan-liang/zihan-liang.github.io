@@ -2,8 +2,8 @@
 type: technical-report
 title: "A Hierarchical Neural Network for Suicide Risk Prediction from Sequential Social Media Posts"
 authors:
-  - Zihan Liang
   - Ruixi Xu
+  - Zihan Liang
   - Ren Zhao
 year: 2025
 venue: IEEE BigData Challenge submission

@@ -14,7 +14,7 @@ methods:
   - NVIDIA Jetson Orin Nano
   - Node-level integration testing
 results:
-  - Validated the integrated codebase for an on-device demonstration.
+  - Deployed and validated the codebase on NVIDIA Jetson Orin Nano.
 links: []
 featured: false
 ---

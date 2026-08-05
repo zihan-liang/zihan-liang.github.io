@@ -22,6 +22,8 @@ const forbiddenPatterns = [
   /date of birth|\bDOB\b/i,
   /phone|telephone|mobile number/i,
   /material\/award|material\/paper/i,
+  /\bIBEC\b/i,
+  /(?:accepted[^<\n]{0,80}poster|poster[^<\n]{0,80}accepted)/i,
 ];
 
 const forbiddenFingerprints = [
@@ -89,8 +91,20 @@ test('outputs distinguish preprint, poster, and technical report', async () => {
   assert.match(html, /Conference poster/i);
   assert.match(html, /Technical report/i);
   assert.match(html, /A Hierarchical Neural Network for Suicide Risk Prediction/);
+  assert.match(html, /A Hierarchical Neural Network for Suicide Risk Prediction[\s\S]*?Ruixi Xu, Zihan Liang, Ren Zhao/);
+  assert.doesNotMatch(html, /A Hierarchical Neural Network for Suicide Risk Prediction[\s\S]*?Zihan Liang, Ruixi Xu, Ren Zhao/);
   assert.match(html, /zihan-liang\/ICSC2025-poster/);
   assert.match(html, /zihan-liang\/public-mental-health-monitoring/);
+});
+
+test('projects include the concrete XJTLU timetable converter repository', async () => {
+  const html = await fileText('projects/index.html');
+  assert.match(html, /XJTLU Timetable Converter/);
+  assert.match(html, /Developer/);
+  assert.match(html, /Feb 2026/);
+  assert.match(html, /HTML-to-iCalendar converter for XJTLU e-Bridge timetable exports/i);
+  assert.match(html, /https:\/\/github\.com\/zihan-liang\/xjtlu-ebridge-html-to-ics/);
+  assert.doesNotMatch(html, /Open Research Software/);
 });
 
 test('generated public artifacts contain no forbidden private or unsupported claims', async () => {

@@ -16,7 +16,7 @@ methods:
   - Five-fold user-level evaluation
 results:
   - Achieved weighted F1 0.46 versus 0.43 for a RoBERTa baseline under five-fold user-level evaluation.
-  - Presented the accepted poster at ICSC 2025.
+  - Presented the conference poster at ICSC 2025.
 links:
   - label: Code
     url: https://github.com/zihan-liang/public-mental-health-monitoring
