@@ -93,6 +93,7 @@ test('outputs distinguish preprint, poster, and technical report', async () => {
   assert.match(html, /A Hierarchical Neural Network for Suicide Risk Prediction/);
   assert.match(html, /A Hierarchical Neural Network for Suicide Risk Prediction[\s\S]*?Ruixi Xu, Zihan Liang, Ren Zhao/);
   assert.doesNotMatch(html, /A Hierarchical Neural Network for Suicide Risk Prediction[\s\S]*?Zihan Liang, Ruixi Xu, Ren Zhao/);
+  assert.match(html, /Technical report \/ IEEE BigData Challenge submission/);
   assert.match(html, /zihan-liang\/ICSC2025-poster/);
   assert.match(html, /zihan-liang\/public-mental-health-monitoring/);
 });

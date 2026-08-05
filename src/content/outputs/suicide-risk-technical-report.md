@@ -7,7 +7,7 @@ authors:
   - Ren Zhao
 year: 2025
 venue: IEEE BigData Challenge submission
-status: Technical report and prediction submission
+status: Technical report / IEEE BigData Challenge submission
 summary: Documents the RSD-15K pipeline, hierarchical sequence model, and user-level evaluation that informed the later ICSC poster.
 links:
   - label: Code
