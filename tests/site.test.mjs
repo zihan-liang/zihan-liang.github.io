@@ -6,7 +6,8 @@ import test from 'node:test';
 
 const root = path.resolve(import.meta.dirname, '..');
 const dist = path.join(root, 'dist');
-const approvedCvSha256 = '973295a62659a7680c782e7717d017a2a1a55761a5de29447249787e1258b095';
+const approvedCvSha256 = 'bebdcd7ebdecb4e27251585b264e5adf9070288d44105b50b4757640dc915746';
+const approvedCvBytes = 96948;
 const previousPortraitSha256 = 'dad61c09339a8cc76d3dee1e0c9d5fd8199e393c5657cb7ff105a399a6212375';
 
 const routeFiles = new Map([
@@ -198,10 +199,10 @@ test('generated public artifacts contain no forbidden private or unsupported cla
   assertNoFingerprints(corpus);
 });
 
-test('downloadable CV is byte-identical to the approved two-page PDF', async () => {
+test('downloadable CV is byte-identical to the approved three-page Academic Research CV', async () => {
   const publishedCv = path.join(dist, 'assets', 'Zihan_Liang_Academic_CV.pdf');
   assert.equal(await sha256(publishedCv), approvedCvSha256);
-  assert.ok((await stat(publishedCv)).size > 0);
+  assert.equal((await stat(publishedCv)).size, approvedCvBytes);
 });
 
 test('homepage serves the new optimized responsive portrait', async () => {
