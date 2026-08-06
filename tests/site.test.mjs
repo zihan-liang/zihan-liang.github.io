@@ -6,8 +6,8 @@ import test from 'node:test';
 
 const root = path.resolve(import.meta.dirname, '..');
 const dist = path.join(root, 'dist');
-const approvedCvSha256 = 'bebdcd7ebdecb4e27251585b264e5adf9070288d44105b50b4757640dc915746';
-const approvedCvBytes = 96948;
+const approvedCvSha256 = 'a013d54989bcb3668585eaa12e320de36ac007d02dc4dca32dd0393e5a650f66';
+const approvedCvBytes = 96917;
 const previousPortraitSha256 = 'dad61c09339a8cc76d3dee1e0c9d5fd8199e393c5657cb7ff105a399a6212375';
 
 const routeFiles = new Map([
@@ -57,6 +57,7 @@ const expectedClaimBindings = new Map([
   ['honors/rlls-nipt-first-prize.md', ['rlls-project-awards']],
   ['honors/rlls-oral-presentation.md', ['rlls-suicide-presentation']],
   ['honors/rlls-suicide-second-prize.md', ['rlls-project-awards']],
+  ['honors/robotics-provincial-third-prize.md', ['robotics-provincial-third-prize']],
   ['honors/surf-excellent-poster.md', ['surf-excellent-poster-award']],
   ['updates/2025-08-ssrn.md', ['fx-preprint']],
   ['updates/2025-11-rlls.md', ['rlls-project-awards']],
@@ -190,6 +191,16 @@ test('projects include the approved Python RPG and AI agent software summaries',
   assert.match(html, /automated tests/i);
   assert.match(html, /https:\/\/github\.com\/zihan-liang\/python-learning-rpg/);
   assert.match(html, /multi-agent workflow for generating, solving, verifying, deduplicating, and exporting practice exercises to LaTeX and XML/i);
+});
+
+test('robotics provincial third prize is project-labeled on the homepage and honors route', async () => {
+  for (const file of ['index.html', 'honors/index.html']) {
+    const html = await fileText(file);
+    assert.match(html, /Jiangsu Provincial Third Prize/);
+    assert.match(html, /“Keyou Cup” 4th Jiangsu Provincial University Intelligent Robot Creativity Competition/);
+    assert.match(html, /Home Repair Assistant/);
+    assert.match(html, /2025/);
+  }
 });
 
 test('generated public artifacts contain no forbidden private or unsupported claims', async () => {
