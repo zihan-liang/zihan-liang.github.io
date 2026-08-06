@@ -1,12 +1,11 @@
 ---
-import { getCollection } from 'astro:content';
-import ProjectCard from '../components/ProjectCard.astro';
+import ResearchProjectCard from '../components/ResearchProjectCard.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { researchProjects } from '../data/research';
 
-const projects = await getCollection('projects');
-const fx = projects.find((entry) => entry.data.slug === 'mixed-frequency-transformer');
-const suicide = projects.find((entry) => entry.data.slug === 'sequential-suicide-risk');
+const fx = researchProjects.find((project) => project.slug === 'mixed-frequency-transformer');
+const suicide = researchProjects.find((project) => project.slug === 'sequential-suicide-risk');
 if (!fx || !suicide) throw new Error('Flagship research projects are missing.');
 ---
 
@@ -36,7 +35,7 @@ if (!fx || !suicide) throw new Error('Flagship research projects are missing.');
       </article>
     </div>
     <div class="project-list" style="margin-top: 1.2rem;">
-      <ProjectCard entry={fx} detailed />
+      <ResearchProjectCard project={fx} detailed />
     </div>
   </section>
 
@@ -61,7 +60,7 @@ if (!fx || !suicide) throw new Error('Flagship research projects are missing.');
       </article>
     </div>
     <div class="project-list" style="margin-top: 1.2rem;">
-      <ProjectCard entry={suicide} detailed />
+      <ResearchProjectCard project={suicide} detailed />
     </div>
   </section>
 </BaseLayout>

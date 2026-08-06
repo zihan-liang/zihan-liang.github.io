@@ -13,4 +13,6 @@ links:
   - label: Code
     url: https://github.com/zihan-liang/public-mental-health-monitoring
 featured: false
+claimIds:
+  - suicide-technical-report
 ---

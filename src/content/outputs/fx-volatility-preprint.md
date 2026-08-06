@@ -17,4 +17,6 @@ links:
   - label: DOI
     url: https://doi.org/10.2139/ssrn.5418894
 featured: true
+claimIds:
+  - fx-preprint
 ---

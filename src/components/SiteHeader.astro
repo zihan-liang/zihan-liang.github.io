@@ -7,15 +7,15 @@ interface Props {
 
 const { currentPath } = Astro.props;
 const navItems = [
-  { href: '/', label: 'Home' },
-  { href: '/research/', label: 'Research' },
-  { href: '/outputs/', label: 'Outputs' },
-  { href: '/projects/', label: 'Projects' },
-  { href: '/honors/', label: 'Honors' },
-  { href: '/cv/', label: 'CV' },
+  { id: 'about', label: 'About' },
+  { id: 'research', label: 'Research' },
+  { id: 'outputs', label: 'Outputs' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'honors', label: 'Honors' },
+  { id: 'education', label: 'Education' },
+  { id: 'cv', label: 'CV' },
 ];
-
-const isActive = (href: string) => href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+const anchorPrefix = currentPath === '/' ? '' : '/';
 ---
 
 <header class="site-header" data-site-header>
@@ -33,7 +33,7 @@ const isActive = (href: string) => href === '/' ? currentPath === '/' : currentP
       <ul>
         {navItems.map((item) => (
           <li>
-            <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+            <a href={`${anchorPrefix}#${item.id}`}>{item.label}</a>
           </li>
         ))}
       </ul>

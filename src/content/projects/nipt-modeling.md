@@ -15,7 +15,9 @@ methods:
   - Logistic regression
   - ROC and Youden analysis
 results:
-  - The team received Jiangsu Provincial Second Prize in CUMCM 2025.
+  - The team received Second Prize, Jiangsu Division (Undergraduate Group), in CUMCM 2025.
 links: []
 featured: false
+claimIds:
+  - cumcm-nipt
 ---

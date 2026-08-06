@@ -5,4 +5,6 @@ year: 2025
 project: "Prediction from Sequential Social Media Posts: A Hierarchical Neural Network for Suicide Risk Assessment"
 kind: award
 featured: false
+claimIds:
+  - rlls-project-awards
 ---

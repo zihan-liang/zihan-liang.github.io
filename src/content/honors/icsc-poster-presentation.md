@@ -5,4 +5,7 @@ year: 2025
 project: "Public Mental Health Monitoring: Detecting Suicide Risk in Sequential Social Media"
 kind: presentation
 featured: true
+claimIds:
+  - suicide-poster
+  - icsc-presentation
 ---

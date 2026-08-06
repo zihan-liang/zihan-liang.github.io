@@ -4,13 +4,18 @@ interface Props {
   eyebrow?: string;
   title: string;
   introduction?: string;
+  actionHref?: string;
+  actionLabel?: string;
 }
 
-const { id, eyebrow, title, introduction } = Astro.props;
+const { id, eyebrow, title, introduction, actionHref, actionLabel } = Astro.props;
 ---
 
 <div class="section-heading">
   {eyebrow && <p class="eyebrow">{eyebrow}</p>}
   <h2 id={id}>{title}</h2>
-  {introduction && <p class="section-introduction">{introduction}</p>}
+  <div class="section-heading-copy">
+    {introduction && <p class="section-introduction">{introduction}</p>}
+    {actionHref && actionLabel && <a class="section-link" href={actionHref}>{actionLabel}<span aria-hidden="true"> →</span></a>}
+  </div>
 </div>

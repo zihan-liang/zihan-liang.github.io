@@ -7,6 +7,8 @@ const linkSchema = z.object({
   url: z.url(),
 });
 
+const claimIdsSchema = z.array(z.string().min(1)).min(1);
+
 const outputs = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/outputs' }),
   schema: z.object({
@@ -19,6 +21,7 @@ const outputs = defineCollection({
     summary: z.string().min(1),
     links: z.array(linkSchema),
     featured: z.boolean(),
+    claimIds: claimIdsSchema,
   }),
 });
 
@@ -36,6 +39,7 @@ const projects = defineCollection({
     results: z.array(z.string().min(1)).min(1),
     links: z.array(linkSchema),
     featured: z.boolean(),
+    claimIds: claimIdsSchema,
   }),
 });
 
@@ -48,6 +52,7 @@ const honors = defineCollection({
     project: z.string().min(1),
     kind: z.enum(['award', 'presentation']),
     featured: z.boolean(),
+    claimIds: claimIdsSchema,
   }),
 });
 
@@ -58,6 +63,7 @@ const updates = defineCollection({
     title: z.string().min(1),
     description: z.string().min(1),
     link: z.url().optional(),
+    claimIds: claimIdsSchema,
   }),
 });
 

@@ -5,4 +5,6 @@ year: 2025
 project: Time Point Selection of NIPT and Determination of Fetal Abnormalities
 kind: award
 featured: false
+claimIds:
+  - rlls-project-awards
 ---

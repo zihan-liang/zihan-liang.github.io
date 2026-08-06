@@ -7,12 +7,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const projects = await getCollection('projects');
 const groups = [
   {
-    categories: ['time-series', 'nlp-social-computing'],
-    eyebrow: 'Machine learning',
-    title: 'Flagship research projects',
-    introduction: 'Model development for mixed-frequency forecasting and longitudinal social-media risk assessment.',
-  },
-  {
     categories: ['mathematical-modeling'],
     eyebrow: 'Team methods',
     title: 'Mathematical modeling',
@@ -38,7 +32,7 @@ const groups = [
     <div class="page-shell">
       <p class="eyebrow">Projects</p>
       <h1>From model design to working research artifacts</h1>
-      <p class="page-introduction">Selected projects span machine learning, mathematical modeling, robotics integration, scientific visualization, and public research software.</p>
+      <p class="page-introduction">Selected projects span mathematical modeling, robotics integration, scientific visualization, and public software. The <a href="/research/">research page</a> documents the flagship machine-learning narratives.</p>
     </div>
   </header>
 

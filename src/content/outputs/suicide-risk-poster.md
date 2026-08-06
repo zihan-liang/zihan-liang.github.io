@@ -15,4 +15,6 @@ links:
   - label: Code
     url: https://github.com/zihan-liang/public-mental-health-monitoring
 featured: true
+claimIds:
+  - suicide-poster
 ---

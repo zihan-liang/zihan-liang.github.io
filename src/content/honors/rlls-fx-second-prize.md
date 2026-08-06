@@ -5,4 +5,6 @@ year: 2025
 project: "Do Macroeconomic and Geopolitical Risk Factors Improve FX Volatility Forecasts? A Mixed-Frequency Transformer Approach"
 kind: award
 featured: false
+claimIds:
+  - rlls-project-awards
 ---

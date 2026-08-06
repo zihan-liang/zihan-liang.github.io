@@ -17,4 +17,6 @@ results:
   - Deployed and validated the codebase on NVIDIA Jetson Orin Nano.
 links: []
 featured: false
+claimIds:
+  - home-repair-robotics
 ---

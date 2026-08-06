@@ -18,4 +18,6 @@ links:
   - label: Visualization code
     url: https://github.com/zihan-liang/golden-cluster-drawer
 featured: false
+claimIds:
+  - au20-visualization
 ---

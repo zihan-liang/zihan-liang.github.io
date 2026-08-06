@@ -13,7 +13,14 @@ export const profileSchema = z.object({
   github: z.url(),
   cvPath: z.string().startsWith('/'),
   portraitPath: z.string().startsWith('/'),
+  portraitSmallPath: z.string().startsWith('/'),
   portraitAlt: z.string().min(1),
+  education: z.object({
+    programme: z.string().min(1),
+    expectedGraduation: z.string().min(1),
+    standing: z.string().min(1),
+    selectedMarks: z.array(z.string().min(1)).min(1),
+  }),
 });
 
 export const profile = profileSchema.parse({
@@ -38,6 +45,19 @@ export const profile = profileSchema.parse({
   email: 'Zihan.Liang24@student.xjtlu.edu.cn',
   github: 'https://github.com/zihan-liang',
   cvPath: '/assets/Zihan_Liang_Academic_CV.pdf',
-  portraitPath: '/assets/portrait.jpg',
-  portraitAlt: 'Portrait of Zihan Liang',
+  portraitPath: '/assets/portrait-960.jpg',
+  portraitSmallPath: '/assets/portrait-640.jpg',
+  portraitAlt: 'Formal portrait of Zihan Liang against a red background',
+  education: {
+    programme: 'BEng Artificial Intelligence (Intelligent Systems)',
+    expectedGraduation: '2028',
+    standing: 'Completed Stage 2; Stage 2 weighted average 78/100 and overall weighted average 74/100',
+    selectedMarks: [
+      'Python for AI 92',
+      'Maths for Machine Learning 86',
+      'Engineering Mathematics I 82',
+      'AI Fundamentals & Ethics 81',
+      'Data Structures and Algorithms 78',
+    ],
+  },
 });

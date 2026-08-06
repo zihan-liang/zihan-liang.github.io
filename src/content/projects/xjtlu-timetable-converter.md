@@ -17,4 +17,6 @@ links:
   - label: Code
     url: https://github.com/zihan-liang/xjtlu-ebridge-html-to-ics
 featured: false
+claimIds:
+  - xjtlu-timetable-converter
 ---

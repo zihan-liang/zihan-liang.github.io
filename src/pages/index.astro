@@ -1,27 +1,34 @@
 ---
 import { getCollection } from 'astro:content';
+import HonorRow from '../components/HonorRow.astro';
 import OutputCard from '../components/OutputCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import ResearchProjectCard from '../components/ResearchProjectCard.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import UpdateRow from '../components/UpdateRow.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { profile } from '../data/profile';
+import { researchProjects } from '../data/research';
 
 const outputs = (await getCollection('outputs'))
   .filter((entry) => entry.data.featured)
-  .sort((a, b) => b.data.year - a.data.year);
+  .sort((a, b) => b.data.year - a.data.year || a.data.title.localeCompare(b.data.title));
 const projects = (await getCollection('projects'))
-  .filter((entry) => entry.data.featured)
-  .sort((a, b) => a.data.title.localeCompare(b.data.title));
+  .sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.title.localeCompare(b.data.title));
+const researchEngineeringProjects = projects.filter((entry) => entry.data.category !== 'software');
+const softwareProjects = projects.filter((entry) => entry.data.category === 'software');
+const honors = (await getCollection('honors'))
+  .sort((a, b) => b.data.year - a.data.year || a.data.title.localeCompare(b.data.title));
+const awards = honors.filter((entry) => entry.data.kind === 'award');
+const presentations = honors.filter((entry) => entry.data.kind === 'presentation');
 const updates = (await getCollection('updates'))
-  .sort((a, b) => b.data.date.localeCompare(a.data.date))
-  .slice(0, 4);
+  .sort((a, b) => b.data.date.localeCompare(a.data.date));
 
 const description = 'Machine learning for time-series forecasting and sequential social-media risk assessment by undergraduate AI researcher Zihan Liang.';
 ---
 
 <BaseLayout title="Zihan Liang | AI Research" description={description}>
-  <section class="hero" aria-labelledby="home-title">
+  <section id="about" class="hero" aria-labelledby="home-title">
     <div class="hero-inner">
       <div>
         <p class="hero-kicker">Machine learning · Research engineering</p>
@@ -29,18 +36,26 @@ const description = 'Machine learning for time-series forecasting and sequential
         <p class="hero-positioning">{profile.title}</p>
         <p class="hero-copy">{profile.biography}</p>
         <div class="hero-actions">
-          <a class="button-link" href={`mailto:${profile.email}`}>Email me</a>
-          <a class="button-link button-link--quiet" href={profile.github}>GitHub <span aria-hidden="true">↗</span></a>
+          <a class="button-link" href="#research">Explore research</a>
+          <a class="button-link button-link--quiet" href={`mailto:${profile.email}`}>Email me</a>
         </div>
       </div>
       <figure class="portrait-frame">
-        <img src={profile.portraitPath} alt={profile.portraitAlt} width="295" height="413" fetchpriority="high" />
+        <img
+          src={profile.portraitPath}
+          srcset={`${profile.portraitSmallPath} 640w, ${profile.portraitPath} 960w`}
+          sizes="(max-width: 768px) 82vw, 28vw"
+          alt={profile.portraitAlt}
+          width="960"
+          height="1396"
+          fetchpriority="high"
+        />
       </figure>
     </div>
   </section>
 
-  <section class="section-shell" aria-labelledby="themes-title">
-    <SectionHeading id="themes-title" eyebrow="Research focus" title="Questions that reward careful sequencing" introduction="My work centers on models that must align information across time, aggregate long histories, and remain inspectable under rigorous evaluation." />
+  <section id="research" class="section-shell" aria-labelledby="research-title">
+    <SectionHeading id="research-title" eyebrow="Research" title="Learning from signals that unfold over time" introduction="My research asks how models can align mixed-frequency evidence and preserve long user histories while remaining carefully evaluated and interpretable." actionHref="/research/" actionLabel="Research narratives" />
     <div class="theme-grid">
       {profile.researchThemes.map((theme, index) => (
         <article class="theme-card">
@@ -52,28 +67,81 @@ const description = 'Machine learning for time-series forecasting and sequential
     </div>
   </section>
 
-  <section class="section-shell" aria-labelledby="featured-output-title">
-    <SectionHeading id="featured-output-title" eyebrow="Selected work" title="Featured outputs" introduction="A preprint and a conference poster, labeled by publication type and linked to their public records." />
+  <section id="news" class="section-shell" aria-labelledby="news-title">
+    <SectionHeading id="news-title" eyebrow="News" title="Recent milestones" introduction="Selected research, presentation, and competition updates." />
+    <div class="update-list">
+      {updates.map((entry) => <UpdateRow entry={entry} />)}
+    </div>
+  </section>
+
+  <section id="outputs" class="section-shell" aria-labelledby="outputs-title">
+    <SectionHeading id="outputs-title" eyebrow="Research outputs" title="Preprint and conference poster" introduction="Each item is labeled by its actual form and links to an available public record. The outputs page also documents a related technical report." actionHref="/outputs/" actionLabel="All outputs" />
     <div class="card-grid">
       {outputs.map((entry) => <OutputCard entry={entry} />)}
     </div>
   </section>
 
-  <section class="section-shell" aria-labelledby="featured-project-title">
-    <SectionHeading id="featured-project-title" eyebrow="Flagship narratives" title="Research in practice" introduction="Two projects show how I move from data and model design to evaluation, interpretation, and communication." />
-    <div class="card-grid">
-      {projects.map((entry) => <ProjectCard entry={entry} />)}
-    </div>
-    <div class="research-narrative" style="margin-top: 1rem;">
-      <p class="eyebrow">Evaluation highlight</p>
-      <p>For sequential suicide-risk assessment, the hierarchical model achieved weighted F1 0.46 versus 0.43 for a RoBERTa baseline under five-fold user-level evaluation.</p>
+  <section id="projects" class="section-shell" aria-labelledby="projects-title">
+    <SectionHeading id="projects-title" eyebrow="Research projects" title="Models, evaluation, and research engineering" introduction="These summaries cover the core question, Zihan’s role, and the verified result without requiring a second page." actionHref="/projects/" actionLabel="All project details" />
+    <div class="portal-grid portal-grid--two">
+      {researchProjects.map((project) => <ResearchProjectCard project={project} />)}
+      {researchEngineeringProjects.map((entry) => <ProjectCard entry={entry} />)}
     </div>
   </section>
 
-  <section class="section-shell" aria-labelledby="updates-title">
-    <SectionHeading id="updates-title" eyebrow="Progress" title="Recent milestones" introduction="Selected research, presentation, and competition updates." />
-    <div class="update-list">
-      {updates.map((entry) => <UpdateRow entry={entry} />)}
+  <section id="software" class="section-shell" aria-labelledby="software-title">
+    <SectionHeading id="software-title" eyebrow="Software projects" title="Tools for learning and everyday workflows" introduction="Selected software projects with concrete public repositories where available." actionHref="/projects/" actionLabel="Software details" />
+    <div class="portal-grid portal-grid--two">
+      {softwareProjects.map((entry) => <ProjectCard entry={entry} />)}
+    </div>
+  </section>
+
+  <section id="honors" class="section-shell" aria-labelledby="honors-title">
+    <SectionHeading id="honors-title" eyebrow="Honors and awards" title="Project-labeled recognition" introduction="Awards are attached to the work they recognize. Team competition results remain described at team level." actionHref="/honors/" actionLabel="Honors details" />
+    <div class="honor-list">
+      {awards.map((entry) => <HonorRow entry={entry} />)}
+    </div>
+  </section>
+
+  <section id="presentations" class="section-shell" aria-labelledby="presentations-title">
+    <SectionHeading id="presentations-title" eyebrow="Presentations" title="Sharing research in conference and project settings" introduction="Selected poster and oral presentations are separated from publication and award records." actionHref="/honors/" actionLabel="Presentation details" />
+    <div class="honor-list">
+      {presentations.map((entry) => <HonorRow entry={entry} />)}
+    </div>
+  </section>
+
+  <section id="education" class="section-shell" aria-labelledby="education-title">
+    <SectionHeading id="education-title" eyebrow="Education" title={profile.institution} introduction={`${profile.education.programme}. Expected graduation ${profile.education.expectedGraduation}.`} />
+    <div class="cv-summary">
+      <dl class="fact-list">
+        <div><dt>Stage</dt><dd>{profile.education.standing}</dd></div>
+        <div><dt>Focus</dt><dd>Artificial intelligence, machine learning, mathematical modeling, and research engineering</dd></div>
+      </dl>
+      <aside class="research-narrative">
+        <p class="eyebrow">Academic direction</p>
+        <p>Undergraduate study at XJTLU supports research across quantitative AI and NLP-driven social computing.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="cv" class="section-shell" aria-labelledby="cv-title">
+    <SectionHeading id="cv-title" eyebrow="CV and contact" title="Continue the conversation" introduction="Download the latest approved academic CV or get in touch about research and collaboration." actionHref="/cv/" actionLabel="CV profile" />
+    <div class="contact-grid">
+      <div class="download-panel">
+        <p class="eyebrow">Academic CV</p>
+        <h3>Latest final English CV</h3>
+        <p>The public download is the academic application version.</p>
+        <a class="button-link" href={profile.cvPath} download>Download CV</a>
+      </div>
+      <div class="download-panel">
+        <p class="eyebrow">Contact</p>
+        <h3>Research and project links</h3>
+        <p>Email is the best route for research enquiries. Public work is collected on GitHub.</p>
+        <div class="hero-actions">
+          <a class="button-link" href={`mailto:${profile.email}`}>Email Zihan</a>
+          <a class="button-link button-link--quiet" href={profile.github}>GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
     </div>
   </section>
 </BaseLayout>
