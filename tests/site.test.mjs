@@ -240,6 +240,11 @@ test('sitemap, robots, 404, social card, and portrait are present', async () => 
   await stat(path.join(dist, 'assets', 'portrait-960.jpg'));
 });
 
+test('custom Pages workflow grants deploy-pages fifteen minutes', async () => {
+  const workflow = await readFile(path.join(root, '.github', 'workflows', 'deploy.yml'), 'utf8');
+  assert.match(workflow, /uses:\s*actions\/deploy-pages@v4\s*\n\s*with:\s*\n\s*timeout:\s*900000(?:\s|$)/);
+});
+
 test('mobile navigation and responsive accessibility contracts are rendered', async () => {
   const html = await fileText('index.html');
   const cssFiles = (await allFiles(path.join(dist, '_astro'))).filter((file) => file.endsWith('.css'));
