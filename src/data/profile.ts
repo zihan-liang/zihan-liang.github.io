@@ -27,7 +27,7 @@ export const profile = profileSchema.parse({
   name: 'Zihan Liang',
   title: 'Undergraduate AI Researcher at XJTLU',
   institution: "Xi'an Jiaotong-Liverpool University",
-  biography: 'I work on machine learning for mixed-frequency financial time-series forecasting and sequential social-media risk assessment. My practice connects careful data processing with model implementation, evaluation, interpretability, and research communication.',
+  biography: 'I work on machine learning for mixed-frequency financial time-series forecasting and sequential social-media risk assessment. My practice connects careful data processing with model implementation, evaluation, interpretability, and research communication. Research dissemination includes team research presented at IBEC 2026 and a first-authored poster presented at ICSC 2025.',
   researchThemes: [
     {
       title: 'Time-series and quantitative AI',
@@ -56,7 +56,7 @@ export const profile = profileSchema.parse({
       'Python for AI 92',
       'Maths for Machine Learning 86',
       'Engineering Mathematics I 82',
-      'AI Fundamentals & Ethics 81',
+      'AI Fundamentals and Ethics 81',
       'Data Structures and Algorithms 78',
     ],
   },

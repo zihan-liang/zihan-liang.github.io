@@ -32,7 +32,7 @@ const projects = defineCollection({
     title: z.string().min(1),
     period: z.string().min(1),
     role: z.string().min(1),
-    category: z.enum(['time-series', 'nlp-social-computing', 'mathematical-modeling', 'robotics', 'scientific-visualization', 'software']),
+    category: z.enum(['time-series', 'nlp-social-computing', 'ai-systems', 'mathematical-modeling', 'robotics', 'scientific-visualization', 'software']),
     summary: z.string().min(1),
     contributions: z.array(z.string().min(1)).min(1),
     methods: z.array(z.string().min(1)).min(1),

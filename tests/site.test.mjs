@@ -6,8 +6,8 @@ import test from 'node:test';
 
 const root = path.resolve(import.meta.dirname, '..');
 const dist = path.join(root, 'dist');
-const approvedCvSha256 = 'a013d54989bcb3668585eaa12e320de36ac007d02dc4dca32dd0393e5a650f66';
-const approvedCvBytes = 96917;
+const approvedCvSha256 = 'ceceeae2dc3d0e44f6c9eca7404e5d61853ab0e5a9df81b0cbc31a35f105da63';
+const approvedCvBytes = 98623;
 const previousPortraitSha256 = 'dad61c09339a8cc76d3dee1e0c9d5fd8199e393c5657cb7ff105a399a6212375';
 
 const routeFiles = new Map([
@@ -24,7 +24,6 @@ const forbiddenPatterns = [
   /date of birth|\bDOB\b/i,
   /phone|telephone|mobile number/i,
   /material\/award|material\/paper/i,
-  /\bIBEC\b/i,
   /\bCyberC\b/i,
   /personal Au20 GNN|Au20 GNN authorship|GNN model authorship/i,
   /(?:accepted[^<\n]{0,80}poster|poster[^<\n]{0,80}accepted)/i,
@@ -49,6 +48,7 @@ const expectedClaimBindings = new Map([
   ['projects/xjtlu-timetable-converter.md', ['xjtlu-timetable-converter']],
   ['projects/python-learning-rpg.md', ['python-learning-rpg']],
   ['projects/ai-agent-exercise-generator.md', ['ai-agent-exercise-generator']],
+  ['projects/skillnet-graph-coordination.md', ['sjtu-ai-action-summer-school-completion', 'sjtu-skillnet-experiment']],
   ['honors/cumcm-second-prize.md', ['cumcm-nipt']],
   ['honors/icsc-poster-presentation.md', ['suicide-poster', 'icsc-presentation']],
   ['honors/mcm-finalist.md', ['mcm-finalist']],
@@ -59,10 +59,13 @@ const expectedClaimBindings = new Map([
   ['honors/rlls-suicide-second-prize.md', ['rlls-project-awards']],
   ['honors/robotics-provincial-third-prize.md', ['robotics-provincial-third-prize']],
   ['honors/surf-excellent-poster.md', ['surf-excellent-poster-award']],
+  ['honors/sjtu-skillnet-social-impact.md', ['sjtu-skillnet-social-impact-first-prize']],
   ['updates/2025-08-ssrn.md', ['fx-preprint']],
   ['updates/2025-11-rlls.md', ['rlls-project-awards']],
   ['updates/2025-iccs-poster.md', ['icsc-presentation']],
   ['updates/2026-mcm-finalist.md', ['mcm-finalist']],
+  ['updates/2026-ibec.md', ['fx-ibec-presentation']],
+  ['updates/2026-07-sjtu-skillnet.md', ['sjtu-ai-action-summer-school-completion', 'sjtu-skillnet-experiment', 'sjtu-skillnet-social-impact-first-prize']],
 ]);
 
 async function fileText(relativePath) {
@@ -120,6 +123,9 @@ test('homepage contains authorized positioning, research result, and Person data
   assert.match(html, /"@type":"Person"/);
   assert.match(html, /Zihan\.Liang24@student\.xjtlu\.edu\.cn/);
   assert.match(html, /https:\/\/github\.com\/zihan-liang/);
+  assert.match(html, /team research presented at IBEC 2026/i);
+  assert.match(html, /A co-author presented the team’s USD\/CNH volatility-forecasting research at IBEC 2026/i);
+  assert.doesNotMatch(html, /I presented[^<\n]{0,80}IBEC|Zihan[^<\n]{0,80}presented[^<\n]{0,80}IBEC/i);
 });
 
 test('homepage is a complete ordered academic portal with anchor navigation', async () => {
@@ -191,6 +197,22 @@ test('projects include the approved Python RPG and AI agent software summaries',
   assert.match(html, /automated tests/i);
   assert.match(html, /https:\/\/github\.com\/zihan-liang\/python-learning-rpg/);
   assert.match(html, /multi-agent workflow for generating, solving, verifying, deduplicating, and exporting practice exercises to LaTeX and XML/i);
+});
+
+test('SkillNet project and SJTU social-impact award match the final CV', async () => {
+  const projects = await fileText('projects/index.html');
+  assert.match(projects, /SkillNet: Graph-Guided Coordination for Enterprise AI Agents/);
+  assert.match(projects, /46 atomic skills and 21 Gold Tasks/);
+  assert.match(projects, /89\.13% Skill F1/);
+  assert.match(projects, /98\.10%/);
+  assert.match(projects, /https:\/\/github\.com\/zihan-liang\/skill-net/);
+
+  for (const file of ['index.html', 'honors/index.html']) {
+    const html = await fileText(file);
+    assert.match(html, /First Prize for Social Impact/);
+    assert.match(html, /AI Action Summer School, Shanghai Jiao Tong University/);
+    assert.match(html, /SkillNet: Organizing Skills at Scale/);
+  }
 });
 
 test('robotics provincial third prize is project-labeled on the homepage and honors route', async () => {

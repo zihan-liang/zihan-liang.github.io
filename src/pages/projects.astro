@@ -7,6 +7,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const projects = await getCollection('projects');
 const groups = [
   {
+    categories: ['ai-systems'],
+    eyebrow: 'Agent coordination',
+    title: 'AI systems and graph-guided experiments',
+    introduction: 'Controlled experiments on how structured skill catalogues support reliable enterprise AI-agent coordination.',
+  },
+  {
     categories: ['mathematical-modeling'],
     eyebrow: 'Team methods',
     title: 'Mathematical modeling',
@@ -27,12 +33,12 @@ const groups = [
 ];
 ---
 
-<BaseLayout title="Projects" description="Verified machine-learning, mathematical-modeling, robotics, scientific-visualization, and software projects by Zihan Liang.">
+<BaseLayout title="Projects" description="Verified AI-systems, mathematical-modeling, robotics, scientific-visualization, and software projects by Zihan Liang.">
   <header class="page-hero">
     <div class="page-shell">
       <p class="eyebrow">Projects</p>
       <h1>From model design to working research artifacts</h1>
-      <p class="page-introduction">Selected projects span mathematical modeling, robotics integration, scientific visualization, and public software. The <a href="/research/">research page</a> documents the flagship machine-learning narratives.</p>
+      <p class="page-introduction">Selected projects span AI-agent coordination, mathematical modeling, robotics integration, scientific visualization, and public software. The <a href="/research/">research page</a> documents the flagship machine-learning narratives.</p>
     </div>
   </header>
 

@@ -18,11 +18,11 @@ export const researchProjects: ResearchProject[] = [
   {
     slug: 'mixed-frequency-transformer',
     title: 'Mixed-Frequency Transformer for USD/CNH Volatility Forecasting',
-    period: '2025',
+    period: 'Aug 2025 – Jan 2026',
     role: 'Model developer and third author',
     category: 'Time-series AI',
     summary: 'A multi-stream Transformer that aligns daily technical signals with lower-frequency macroeconomic and geopolitical information for multi-horizon volatility forecasting.',
-    homepageSummary: 'An SSRN preprint on whether macroeconomic and geopolitical risk factors improve USD/CNH volatility forecasting across multiple horizons.',
+    homepageSummary: 'A mixed-frequency Transformer study presented by the team at IBEC 2026 and released as an SSRN preprint.',
     contributions: [
       'Implemented temporal and positional encodings.',
       'Proposed cross-attention between daily technical and lower-frequency macroeconomic and geopolitical streams.',
@@ -30,10 +30,16 @@ export const researchProjects: ResearchProject[] = [
       'Produced Integrated Gradients analyses.',
     ],
     methods: ['Mixed-frequency learning', 'Cross-attention', 'Multi-horizon forecasting', 'Integrated Gradients'],
-    results: ['Contributed model-development and evaluation work to the SSRN preprint.'],
-    links: [{ label: 'Preprint', url: 'https://ssrn.com/abstract=5418894' }],
-    detailClaimIds: ['fx-preprint', 'fx-project-contributions'],
-    homepageClaimIds: ['fx-preprint'],
+    results: [
+      'The team presented the research at IBEC 2026.',
+      'Contributed model-development and evaluation work to the SSRN preprint.',
+    ],
+    links: [
+      { label: 'IBEC 2026', url: 'https://ibec-info.org/2026/' },
+      { label: 'Preprint', url: 'https://ssrn.com/abstract=5418894' },
+    ],
+    detailClaimIds: ['fx-preprint', 'fx-project-contributions', 'fx-ibec-presentation'],
+    homepageClaimIds: ['fx-preprint', 'fx-ibec-presentation'],
   },
   {
     slug: 'sequential-suicide-risk',
