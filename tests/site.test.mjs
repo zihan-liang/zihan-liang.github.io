@@ -308,3 +308,37 @@ test('repository maintenance instructions enforce evidence, privacy, and deploym
   assert.match(instructions, /private repository/i);
   assert.match(instructions, /explicit[^\n]+(?:push|deploy)/i);
 });
+
+test('sitewide visitor statistics use one deferred Vercount script and accessible placeholders', async () => {
+  for (const [route, file] of routeFiles) {
+    const html = await fileText(file);
+    const counterScripts = html.match(
+      /<script[^>]*src="https:\/\/cn\.vercount\.one\/js"[^>]*><\/script>/g,
+    ) ?? [];
+
+    assert.equal(counterScripts.length, 1, `${route} should load Vercount exactly once`);
+    assert.match(counterScripts[0], /\bdefer(?:\s|>|=)/);
+    assert.match(html, /aria-label="Website visitor statistics"/);
+    assert.match(html, /id="busuanzi_container_site_pv"/);
+    assert.match(html, /id="busuanzi_value_site_pv"[^>]*aria-live="polite"[^>]*>—<\/span>/);
+    assert.match(html, /id="busuanzi_container_site_uv"/);
+    assert.match(html, /id="busuanzi_value_site_uv"[^>]*aria-live="polite"[^>]*>—<\/span>/);
+    assert.match(html, /Total visits/);
+    assert.match(html, /Visitors/);
+    assert.doesNotMatch(html, />24137<|>17601</);
+  }
+
+  const cssSource = await readFile(path.join(root, 'src', 'styles', 'global.css'), 'utf8');
+  assert.match(
+    cssSource,
+    /\.visitor-stats\s*\{[\s\S]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/,
+  );
+  assert.match(
+    cssSource,
+    /\.visitor-stat-value\s*\{[\s\S]*font-variant-numeric:\s*tabular-nums/,
+  );
+  assert.match(
+    cssSource,
+    /@media\s*\(max-width:\s*48rem\)[\s\S]*\.visitor-stats\s*\{[\s\S]*grid-template-columns:\s*1fr/,
+  );
+});

@@ -1,10 +1,12 @@
 ---
 import { profile } from '../data/profile';
+import VisitorStats from './VisitorStats.astro';
 
 const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
+  <VisitorStats />
   <div class="footer-inner">
     <div>
       <p class="footer-name">{profile.name}</p>

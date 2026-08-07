@@ -43,3 +43,7 @@ npm run qa
 You may set `CV_PDF_PATH` instead of passing `--source`. Review the PDF diff, hash, and test results before committing. Do not publish the Master CV unless explicitly requested.
 
 Website maintenance remains local by default. A commit, push, and GitHub Pages deployment are separate actions and each requires the user's instruction.
+
+### Visitor statistics
+
+The footer loads the deferred Vercount script from `https://cn.vercount.one/js` and renders sitewide page-view and unique-visitor totals. Static HTML uses neutral placeholders, so blocking or losing the third-party script does not affect navigation or other content.
