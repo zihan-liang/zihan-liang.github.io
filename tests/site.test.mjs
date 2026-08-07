@@ -293,3 +293,18 @@ test('mobile navigation and responsive accessibility contracts are rendered', as
   assert.match(css, /:focus-visible/);
   assert.match(css, /overflow-wrap:\s*anywhere/);
 });
+
+test('repository maintenance instructions enforce evidence, privacy, and deployment gates', async () => {
+  const instructionsPath = path.join(root, 'AGENTS.md');
+  const exists = await stat(instructionsPath).then(() => true, () => false);
+  assert.ok(exists, 'AGENTS.md must define website maintenance constraints');
+  const instructions = await readFile(instructionsPath, 'utf8');
+  assert.match(instructions, /evidence\/claims\.yml/);
+  assert.match(instructions, /npm run qa/);
+  assert.match(instructions, /npm run sync:cv/);
+  assert.match(instructions, /phone number/i);
+  assert.match(instructions, /student ID/i);
+  assert.match(instructions, /certificate identifier/i);
+  assert.match(instructions, /private repository/i);
+  assert.match(instructions, /explicit[^\n]+(?:push|deploy)/i);
+});
