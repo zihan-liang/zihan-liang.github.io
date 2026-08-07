@@ -136,6 +136,13 @@ test('education surfaces include the confirmed first-place programme ranking', a
   }
 });
 
+test('homepage milestone dates use the verified event months', async () => {
+  const html = await fileText('index.html');
+  assert.match(html, /<time datetime="2026-01-03">Jan 2026<\/time>[\s\S]*IBEC 2026/);
+  assert.match(html, /<time datetime="2026-05-08">May 2026<\/time>[\s\S]*MCM Finalist/);
+  assert.match(html, /<time datetime="2025-12-12">Dec 2025<\/time>[\s\S]*ICSC poster presented/);
+});
+
 test('homepage is a complete ordered academic portal with anchor navigation', async () => {
   const html = await fileText('index.html');
   const sectionIds = ['about', 'research', 'news', 'outputs', 'projects', 'software', 'honors', 'presentations', 'education', 'cv'];

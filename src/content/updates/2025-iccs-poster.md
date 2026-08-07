@@ -1,5 +1,5 @@
 ---
-date: "2025"
+date: "2025-12-12"
 title: ICSC poster presented
 description: Presented the conference poster on sequential social-media suicide-risk assessment at ICSC 2025.
 link: https://github.com/zihan-liang/ICSC2025-poster
