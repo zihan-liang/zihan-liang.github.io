@@ -6,8 +6,8 @@ import test from 'node:test';
 
 const root = path.resolve(import.meta.dirname, '..');
 const dist = path.join(root, 'dist');
-const approvedCvSha256 = 'ceceeae2dc3d0e44f6c9eca7404e5d61853ab0e5a9df81b0cbc31a35f105da63';
-const approvedCvBytes = 98623;
+const approvedCvSha256 = 'fc9deaa65e40562b6edaa11298d8738a854b93d6940ec6dbf8404e4bf382a43c';
+const approvedCvBytes = 98647;
 const previousPortraitSha256 = 'dad61c09339a8cc76d3dee1e0c9d5fd8199e393c5657cb7ff105a399a6212375';
 
 const routeFiles = new Map([
@@ -126,6 +126,14 @@ test('homepage contains authorized positioning, research result, and Person data
   assert.match(html, /team research presented at IBEC 2026/i);
   assert.match(html, /A co-author presented the team’s USD\/CNH volatility-forecasting research at IBEC 2026/i);
   assert.doesNotMatch(html, /I presented[^<\n]{0,80}IBEC|Zihan[^<\n]{0,80}presented[^<\n]{0,80}IBEC/i);
+});
+
+test('education surfaces include the confirmed first-place programme ranking', async () => {
+  for (const file of ['index.html', 'cv/index.html']) {
+    const html = await fileText(file);
+    assert.match(html, /Ranked 1st in the programme based on a Stage 2 weighted average of 78\/100/);
+    assert.match(html, /Overall weighted average: 74\/100/);
+  }
 });
 
 test('homepage is a complete ordered academic portal with anchor navigation', async () => {

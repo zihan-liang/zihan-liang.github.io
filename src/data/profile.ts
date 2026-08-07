@@ -51,7 +51,7 @@ export const profile = profileSchema.parse({
   education: {
     programme: 'BEng Artificial Intelligence (Intelligent Systems)',
     expectedGraduation: '2028',
-    standing: 'Completed Stage 2; Stage 2 weighted average 78/100 and overall weighted average 74/100',
+    standing: 'Ranked 1st in the programme based on a Stage 2 weighted average of 78/100. Overall weighted average: 74/100.',
     selectedMarks: [
       'Python for AI 92',
       'Maths for Machine Learning 86',
