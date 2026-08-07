@@ -13,6 +13,7 @@
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
     "test": "node --test tests/*.test.mjs",
+    "sync:cv": "node scripts/sync-cv.mjs",
     "qa": "npm run check && npm run build && npm test"
   },
   "dependencies": {
