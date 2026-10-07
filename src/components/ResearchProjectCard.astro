@@ -34,7 +34,7 @@ const { project, detailed = false } = Astro.props;
     </div>
   )}
   <div class="card-links">
-    {project.links.map((link) => <a href={link.url}>{link.label}<span aria-hidden="true"> ↗</span></a>)}
-    {!detailed && <a href="/research/">Research details<span aria-hidden="true"> →</span></a>}
+    {project.links.map((link) => <a href={link.url}>{link.label}</a>)}
+    {!detailed && <a href="/research/">Research details</a>}
   </div>
 </article>

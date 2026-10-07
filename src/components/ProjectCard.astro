@@ -44,7 +44,7 @@ const categoryLabels = {
   )}
   {entry.data.links.length > 0 && (
     <div class="card-links">
-      {entry.data.links.map((link) => <a href={link.url}>{link.label}<span aria-hidden="true"> ↗</span></a>)}
+      {entry.data.links.map((link) => <a href={link.url}>{link.label}</a>)}
     </div>
   )}
 </article>

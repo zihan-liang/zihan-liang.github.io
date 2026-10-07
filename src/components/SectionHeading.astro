@@ -16,6 +16,6 @@ const { id, eyebrow, title, introduction, actionHref, actionLabel } = Astro.prop
   <h2 id={id}>{title}</h2>
   <div class="section-heading-copy">
     {introduction && <p class="section-introduction">{introduction}</p>}
-    {actionHref && actionLabel && <a class="section-link" href={actionHref}>{actionLabel}<span aria-hidden="true"> →</span></a>}
+    {actionHref && actionLabel && <a class="section-link" href={actionHref}>{actionLabel}</a>}
   </div>
 </div>

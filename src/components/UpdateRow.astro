@@ -12,10 +12,10 @@ const readableDate = entry.data.date.length === 4
       .format(new Date(`${entry.data.date}${entry.data.date.length === 7 ? '-01' : ''}T00:00:00Z`));
 ---
 
-<article class="update-row">
+<article class="update-row" data-claim-ids={entry.data.claimIds.join(' ')}>
   <time datetime={entry.data.date}>{readableDate}</time>
   <div>
     <h3>{entry.data.link ? <a href={entry.data.link}>{entry.data.title}</a> : entry.data.title}</h3>
-    <p>{entry.data.description}</p>
+    <details class="news-detail"><summary>Details</summary><p>{entry.data.description}</p></details>
   </div>
 </article>

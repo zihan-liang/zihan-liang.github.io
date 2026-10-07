@@ -36,9 +36,14 @@ const description = 'Machine learning for time-series forecasting and sequential
         <p class="hero-positioning">{profile.title}</p>
         <p class="hero-copy">{profile.biography}</p>
         <div class="hero-actions">
-          <a class="button-link" href="#research">Explore research</a>
+          <a class="button-link" href={profile.cvPath} download>Academic Research CV</a>
           <a class="button-link button-link--quiet" href={`mailto:${profile.email}`}>Email me</a>
         </div>
+        <dl class="hero-achievements">
+          <div data-claim-ids="education-stage-two"><dt>Programme rank</dt><dd>1st <span>Stage 2 · 78/100</span></dd></div>
+          <div data-claim-ids="mcm-finalist"><dt>Mathematical modeling</dt><dd>MCM Finalist <span>2026 · Team result</span></dd></div>
+          <div data-claim-ids="suicide-poster icsc-presentation"><dt>Research communication</dt><dd>ICSC 2025 <span>First-authored poster</span></dd></div>
+        </dl>
       </div>
       <figure class="portrait-frame">
         <img
@@ -55,7 +60,7 @@ const description = 'Machine learning for time-series forecasting and sequential
   </section>
 
   <section id="research" class="section-shell" aria-labelledby="research-title">
-    <SectionHeading id="research-title" eyebrow="Research" title="Learning from signals that unfold over time" introduction="My research asks how models can align mixed-frequency evidence and preserve long user histories while remaining carefully evaluated and interpretable." actionHref="/research/" actionLabel="Research narratives" />
+    <SectionHeading id="research-title" eyebrow="Research" title="Research interests" introduction="My research asks how models can align mixed-frequency evidence and preserve long user histories while remaining carefully evaluated and interpretable." actionHref="/research/" actionLabel="Research narratives" />
     <div class="theme-grid">
       {profile.researchThemes.map((theme, index) => (
         <article class="theme-card">
@@ -75,14 +80,14 @@ const description = 'Machine learning for time-series forecasting and sequential
   </section>
 
   <section id="outputs" class="section-shell" aria-labelledby="outputs-title">
-    <SectionHeading id="outputs-title" eyebrow="Research outputs" title="Preprint and conference poster" introduction="Each item is labeled by its actual form and links to an available public record. The outputs page also documents a related technical report." actionHref="/outputs/" actionLabel="All outputs" />
+    <SectionHeading id="outputs-title" eyebrow="Research outputs" title="Preprint and conference poster" introduction="Selected preprint and poster records. The outputs page includes a related technical report." actionHref="/outputs/" actionLabel="All outputs" />
     <div class="card-grid">
       {outputs.map((entry) => <OutputCard entry={entry} />)}
     </div>
   </section>
 
   <section id="projects" class="section-shell" aria-labelledby="projects-title">
-    <SectionHeading id="projects-title" eyebrow="Research projects" title="Models, evaluation, and research engineering" introduction="These summaries cover the core question, Zihan’s role, and the verified result without requiring a second page." actionHref="/projects/" actionLabel="All project details" />
+    <SectionHeading id="projects-title" eyebrow="Research projects" title="Research projects" introduction="Time-series forecasting, sequential risk assessment, and applied AI engineering." actionHref="/projects/" actionLabel="All project details" />
     <div class="portal-grid portal-grid--two">
       {researchProjects.map((project) => <ResearchProjectCard project={project} />)}
       {researchEngineeringProjects.map((entry) => <ProjectCard entry={entry} />)}
@@ -90,21 +95,21 @@ const description = 'Machine learning for time-series forecasting and sequential
   </section>
 
   <section id="software" class="section-shell" aria-labelledby="software-title">
-    <SectionHeading id="software-title" eyebrow="Software projects" title="Tools for learning and everyday workflows" introduction="Selected software projects with concrete public repositories where available." actionHref="/projects/" actionLabel="Software details" />
+    <SectionHeading id="software-title" eyebrow="Software projects" title="Software" introduction="Selected software projects with concrete public repositories where available." actionHref="/projects/" actionLabel="Software details" />
     <div class="portal-grid portal-grid--two">
       {softwareProjects.map((entry) => <ProjectCard entry={entry} />)}
     </div>
   </section>
 
   <section id="honors" class="section-shell" aria-labelledby="honors-title">
-    <SectionHeading id="honors-title" eyebrow="Honors and awards" title="Project-labeled recognition" introduction="Awards are attached to the work they recognize. Team competition results remain described at team level." actionHref="/honors/" actionLabel="Honors details" />
+    <SectionHeading id="honors-title" eyebrow="Honors and awards" title="Honors and awards" introduction="Selected recognition across research, engineering, and team mathematical modeling." actionHref="/honors/" actionLabel="Honors details" />
     <div class="honor-list">
       {awards.map((entry) => <HonorRow entry={entry} />)}
     </div>
   </section>
 
   <section id="presentations" class="section-shell" aria-labelledby="presentations-title">
-    <SectionHeading id="presentations-title" eyebrow="Presentations" title="Sharing research in conference and project settings" introduction="Selected poster and oral presentations are separated from publication and award records." actionHref="/honors/" actionLabel="Presentation details" />
+    <SectionHeading id="presentations-title" eyebrow="Presentations" title="Presentations" introduction="Poster and oral research presentations." actionHref="/honors/" actionLabel="Presentation details" />
     <div class="honor-list">
       {presentations.map((entry) => <HonorRow entry={entry} />)}
     </div>
@@ -129,8 +134,8 @@ const description = 'Machine learning for time-series forecasting and sequential
     <div class="contact-grid">
       <div class="download-panel">
         <p class="eyebrow">Academic CV</p>
-        <h3>Latest final Academic Research CV</h3>
-        <p>Download the approved three-page English Academic Research CV.</p>
+        <h3>Academic Research CV</h3>
+        <p>Three-page English CV with research, education, and selected achievements.</p>
         <a class="button-link" href={profile.cvPath} download>Download CV</a>
       </div>
       <div class="download-panel">
@@ -139,7 +144,7 @@ const description = 'Machine learning for time-series forecasting and sequential
         <p>Email is the best route for research enquiries. Public work is collected on GitHub.</p>
         <div class="hero-actions">
           <a class="button-link" href={`mailto:${profile.email}`}>Email Zihan</a>
-          <a class="button-link button-link--quiet" href={profile.github}>GitHub <span aria-hidden="true">↗</span></a>
+          <a class="button-link button-link--quiet" href={profile.github}>GitHub</a>
         </div>
       </div>
     </div>

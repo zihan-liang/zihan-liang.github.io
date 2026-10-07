@@ -907,3 +907,74 @@ ul {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* Compact academic reading rhythm, shared by the homepage and detail routes. */
+:root {
+  --container: 69rem;
+  --section-space: clamp(2.8rem, 5vw, 4.2rem);
+  --shadow: none;
+}
+h1 { font-size: clamp(3rem, 6vw, 4.8rem); }
+h2 { font-size: clamp(2rem, 3.1vw, 2.65rem); }
+h3 { font-size: clamp(1.35rem, 2vw, 1.65rem); line-height: 1.25; }
+h4, .eyebrow, .hero-kicker { font-size: .875rem; }
+.header-inner { min-height: 4.5rem; }
+.wordmark-field { font-size: .75rem; }
+.hero-inner {
+  min-height: auto;
+  padding-block: clamp(2.8rem, 6vw, 4.5rem);
+  grid-template-columns: minmax(0, 1fr) 14.5rem;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+.hero-copy { font-size: 1rem; line-height: 1.75; }
+.hero-positioning { font-size: 1.125rem; margin-bottom: .9rem; }
+.hero-actions { margin-top: 1.35rem; }
+.button-link, .card-links a, .section-link, .footer-links a { font-size: .875rem; }
+.portrait-frame { padding: .45rem; align-self: start; margin-top: .45rem; }
+.portrait-frame::after { width: 30%; height: 22%; }
+.hero-achievements {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.1rem; margin: 2rem 0 0; padding-top: 1.3rem; border-top: 1px solid var(--rule);
+}
+.hero-achievements dt { font-size: .75rem; color: var(--muted); line-height: 1.5; }
+.hero-achievements dd { margin: .3rem 0 0; font-family: var(--font-display); font-size: 1.5rem; color: var(--navy); line-height: 1.2; }
+.hero-achievements dd span { display: block; margin-top: .45rem; font-family: var(--font-body); font-size: .75rem; color: var(--muted); }
+.section-heading { margin-bottom: 1.6rem; column-gap: 2.5rem; }
+.section-heading .eyebrow { margin-bottom: .5rem; }
+.section-introduction { font-size: 1rem; }
+.theme-card { padding: 1.2rem; background: transparent; }
+.theme-card h3 { font-size: 1.4rem; }
+.card { padding: 1.4rem; box-shadow: none; }
+.card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.tag { font-size: .75rem; letter-spacing: .04em; }
+.card-meta { font-size: .875rem; gap: .6rem; flex-wrap: wrap; }
+.authors, .role, .status { font-size: .875rem; }
+.honor-row, .update-row { grid-template-columns: 6.5rem minmax(0, 1fr); gap: 1.5rem; padding-block: 1.05rem; }
+.update-row h3, .honor-row h3 { font-size: 1.3rem; }
+.update-row time, .honor-year { font-size: 1.15rem; }
+.news-detail summary { color: var(--teal-dark); font-size: .875rem; cursor: pointer; width: fit-content; }
+.news-detail p { margin-top: .45rem; }
+.download-panel, .research-narrative { padding: 1.6rem; }
+.page-hero { padding-block: 3.5rem 2.5rem; }
+.page-hero h1 { font-size: clamp(2.8rem, 5vw, 4rem); }
+.method-list li, .fact-list dt { font-size: .875rem; }
+.visitor-stats { max-width: 32rem; margin-bottom: 1.5rem; }
+.visitor-stat { border-radius: 0; padding: .55rem .7rem; }
+.visitor-stat-value { border-radius: 0; }
+@media (max-width: 60rem) {
+  .wordmark-field { display: none; }
+  .hero-inner { grid-template-columns: minmax(0, 1fr) 12rem; gap: 2rem; }
+  .hero-achievements { gap: .7rem; }
+}
+@media (max-width: 48rem) {
+  .hero-inner { grid-template-columns: minmax(0, 1fr); gap: 1.8rem; }
+  .portrait-frame { grid-row: 1; width: 8rem; margin: 0; }
+  .hero-achievements { grid-template-columns: 1fr; gap: .8rem; }
+  .hero-achievements > div { display: grid; grid-template-columns: 1fr 1.15fr; gap: .5rem; align-items: baseline; }
+  .hero-achievements dd { font-size: 1.25rem; }
+  .hero-achievements dd span { margin-top: .2rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .section-heading { gap: .7rem; }
+  .honor-row, .update-row { grid-template-columns: 1fr; gap: .3rem; }
+  .header-inner { min-height: 4rem; }
+}
