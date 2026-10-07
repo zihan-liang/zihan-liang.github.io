@@ -47,7 +47,7 @@ export const profile = profileSchema.parse({
   cvPath: '/assets/Zihan_Liang_Academic_CV.pdf',
   portraitPath: '/assets/portrait-960.jpg',
   portraitSmallPath: '/assets/portrait-640.jpg',
-  portraitAlt: 'Formal portrait of Zihan Liang against a red background',
+  portraitAlt: 'Formal headshot of Zihan Liang against a white background',
   education: {
     programme: 'BEng Artificial Intelligence (Intelligent Systems)',
     expectedGraduation: '2028',

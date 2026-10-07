@@ -253,7 +253,7 @@ test('downloadable CV is byte-identical to the approved three-page Academic Rese
   assert.equal((await stat(publishedCv)).size, approvedCvBytes);
 });
 
-test('homepage serves the new optimized responsive portrait', async () => {
+test('homepage serves the white-background 5:7 responsive headshot', async () => {
   const html = await fileText('index.html');
   const portrait640 = path.join(dist, 'assets', 'portrait-640.jpg');
   const portrait960 = path.join(dist, 'assets', 'portrait-960.jpg');
@@ -262,7 +262,35 @@ test('homepage serves the new optimized responsive portrait', async () => {
   assert.ok((await stat(portrait960)).size > 0);
   assert.match(html, /src="\/assets\/portrait-960\.jpg"/);
   assert.match(html, /srcset="\/assets\/portrait-640\.jpg 640w, \/assets\/portrait-960\.jpg 960w"/);
-  assert.match(html, /alt="Formal portrait of Zihan Liang against a red background"/);
+  assert.match(html, /alt="Formal headshot of Zihan Liang against a white background"/);
+  assert.match(html, /<img[^>]*src="\/assets\/portrait-960\.jpg"[^>]*width="960"[^>]*height="1344"/);
+
+  for (const [file, width, height] of [[portrait640, 640, 896], [portrait960, 960, 1344]]) {
+    const jpeg = await readFile(file);
+    assert.equal(jpeg.readUInt16BE(0), 0xffd8, 'Portrait must be a JPEG');
+    let dimensions;
+    for (let offset = 2; offset < jpeg.length;) {
+      assert.equal(jpeg[offset], 0xff, 'JPEG segments must be well formed');
+      const marker = jpeg[offset + 1];
+      if (marker === 0xda || marker === 0xd9) break;
+      const length = jpeg.readUInt16BE(offset + 2);
+      assert.ok(length >= 2, 'JPEG segments must have a valid length');
+      assert.ok(![0xe1, 0xed, 0xfe].includes(marker), 'Public portrait must omit EXIF/XMP, IPTC, and comment metadata');
+      if ([0xc0, 0xc1, 0xc2].includes(marker)) {
+        dimensions = [jpeg.readUInt16BE(offset + 7), jpeg.readUInt16BE(offset + 5)];
+      }
+      offset += length + 2;
+    }
+    assert.deepEqual(dimensions, [width, height], 'Responsive headshot must retain 5:7 intrinsic dimensions');
+  }
+
+  const cssFiles = (await allFiles(path.join(dist, '_astro'))).filter((file) => file.endsWith('.css'));
+  const css = (await Promise.all(cssFiles.map((file) => readFile(file, 'utf8')))).join('\n');
+  assert.match(css, /\.portrait-frame img\{[^}]*aspect-ratio:5\s*\/\s*7[;}]/);
+  assert.doesNotMatch(css, /\.portrait-frame img\{[^}]*(?:transform:|transform-origin:)/);
+  assert.doesNotMatch(css, /aspect-ratio:2515\s*\/\s*3657/);
+  assert.match(css, /@media\s*\((?:max-width:\s*48rem|width\s*<=\s*48rem)\)\{\.hero-inner\{[^}]*gap:1\.2rem[;}]/);
+  assert.match(css, /@media\s*\((?:max-width:\s*48rem|width\s*<=\s*48rem)\)\{\.hero-inner\{[^}]*\}\.portrait-frame\{[^}]*width:7rem[;}]/);
 });
 
 test('sitemap, robots, 404, social card, and portrait are present', async () => {

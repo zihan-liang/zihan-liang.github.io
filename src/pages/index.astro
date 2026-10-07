@@ -46,15 +46,17 @@ const description = 'Machine learning for time-series forecasting and sequential
         </dl>
       </div>
       <figure class="portrait-frame">
-        <img
-          src={profile.portraitPath}
-          srcset={`${profile.portraitSmallPath} 640w, ${profile.portraitPath} 960w`}
-          sizes="(max-width: 768px) 82vw, 28vw"
-          alt={profile.portraitAlt}
-          width="960"
-          height="1396"
-          fetchpriority="high"
-        />
+        <div class="portrait-crop">
+          <img
+            src={profile.portraitPath}
+            srcset={`${profile.portraitSmallPath} 640w, ${profile.portraitPath} 960w`}
+            sizes="(max-width: 768px) 82vw, 28vw"
+            alt={profile.portraitAlt}
+            width="960"
+            height="1344"
+            fetchpriority="high"
+          />
+        </div>
       </figure>
     </div>
   </section>

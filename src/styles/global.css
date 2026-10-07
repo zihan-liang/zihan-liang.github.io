@@ -368,10 +368,16 @@ ul {
   pointer-events: none;
 }
 
+.portrait-crop {
+  overflow: hidden;
+  aspect-ratio: 5 / 7;
+}
+
 .portrait-frame img {
   width: 100%;
-  aspect-ratio: 2515 / 3657;
+  aspect-ratio: 5 / 7;
   object-fit: cover;
+  object-position: center;
 }
 
 .page-hero {
@@ -967,8 +973,8 @@ h4, .eyebrow, .hero-kicker { font-size: .875rem; }
   .hero-achievements { gap: .7rem; }
 }
 @media (max-width: 48rem) {
-  .hero-inner { grid-template-columns: minmax(0, 1fr); gap: 1.8rem; }
-  .portrait-frame { grid-row: 1; width: 8rem; margin: 0; }
+  .hero-inner { grid-template-columns: minmax(0, 1fr); gap: 1.2rem; }
+  .portrait-frame { grid-row: 1; width: 7rem; margin: 0; }
   .hero-achievements { grid-template-columns: 1fr; gap: .8rem; }
   .hero-achievements > div { display: grid; grid-template-columns: 1fr 1.15fr; gap: .5rem; align-items: baseline; }
   .hero-achievements dd { font-size: 1.25rem; }
